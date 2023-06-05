@@ -1,0 +1,173 @@
+﻿
+
+@model IEnumerable<StudentsSystem.Models.Students>
+
+
+@{
+    ViewData["Title"] = "Index";
+
+    Pager pager = new Pager();
+
+    int pageNo = 0;
+
+    if (ViewBag.Pager != null)
+
+    {
+
+        pager = ViewBag.Pager;
+
+        pageNo = pager.CurrentPages;
+
+    }
+    }
+
+
+
+<h1>Index</h1>
+
+
+
+@using(Html.BeginForm("Index","Students", FormMethod.Get ))
+{
+    
+    <div> 
+
+        Name 
+
+        @Html.TextBox("name")
+    </div>
+
+
+    <div>
+
+       Gender
+
+        All @Html.RadioButton("gender", "")
+
+        Female @Html.RadioButton("gender", "Female") 
+
+           Male @Html.RadioButton("gender", "Male")  
+ 
+    </div>
+
+    <div>
+
+        City
+
+        @Html.TextBox("city")
+    </div>
+
+
+    <div >
+
+        Date Of Birth
+
+        <div>
+            From @Html.TextBox("startdate")
+          
+      </div>  
+
+    </div>
+
+
+    <div>
+
+        <input class="btn btn-primary" id="submit" type="submit" value="Search" >
+
+    </div>
+}
+
+
+<p>
+    <a class="btn btn-success" asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Gender)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.City)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateOfBirth)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsEnrolled)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                
+              @Html.DisplayFor(modelItem => item.Gender)
+
+
+
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.City)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateOfBirth)
+            </td>
+            <td>
+                    @Html.CheckBox("IsEnrolled", true)
+            </td>
+            <td>
+                <a class="btn btn-info" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+
+<div class="container"> 
+
+    @if (pager.TotalPages > 0)
+    {
+
+        <ul class="pagination justify-content-end"> 
+            
+            @for (var pge = pager.StartPage; pge<=pager.EndPage; pge++)
+            {
+                        
+                <li class="page-item @(pge == pager.CurrentPages ? "active" : "")"> 
+
+                    <a class="page-link" asp-controller="Students" asp-action="Index" asp-route-pg="@pge" > @pge </a>
+
+
+                </li>
+    }
+        </ul>
+    }
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
